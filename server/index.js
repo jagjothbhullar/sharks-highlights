@@ -41,6 +41,15 @@ app.get('/api/health', async (req, res) => {
   });
 });
 
+// One-time seed endpoint (remove after initial deploy)
+app.post('/api/seed', async (req, res) => {
+  const gameCount = await prisma.game.count();
+  if (gameCount > 0) return res.json({ message: 'Already seeded', games: gameCount });
+  res.json({ message: 'Seed started — check server logs' });
+  // Run seed in background
+  import('./scripts/seed.js').catch(err => console.error('[seed] Error:', err));
+});
+
 // Nightly game sync — 8 AM Pacific (after games are finalized + highlights posted)
 cron.schedule('0 8 * * *', () => {
   console.log('[cron] Running nightly game sync...');

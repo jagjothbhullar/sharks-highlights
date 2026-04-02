@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id            String   @id @default(uuid())
+  nhlId         Int      @unique
+  firstName     String
+  lastName      String
+  positionCode  String
+  sweaterNumber Int?
+  headshotUrl   String?
+  birthDate     String?
+  birthCity     String?
+  birthCountry  String?
+  heightInches  Int?
+  weightPounds  Int?
+  shootsCatches String?
+  goals         Goal[]
+  seasonStats   SeasonStats?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([nhlId])
+}
+
+model Game {
+  id               String   @id @default(uuid())
+  nhlGameId        Int      @unique
+  gameDate         DateTime
+  season           String
+  gameType         String
+  homeTeamAbbrev   String
+  awayTeamAbbrev   String
+  homeScore        Int?
+  awayScore        Int?
+  isHome           Boolean
+  opponentAbbrev   String
+  recapVideoId     String?
+  condensedVideoId String?
+  goals            Goal[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([gameDate])
+  @@index([opponentAbbrev])
+}
+
+model Goal {
+  id             String   @id @default(uuid())
+  nhlEventId     Int
+  gameId         String
+  game           Game     @relation(fields: [gameId], references: [id])
+  scorerId       String?
+  scorer         Player?  @relation(fields: [scorerId], references: [id])
+  scorerName     String
+  assist1Name    String?
+  assist2Name    String?
+  period         Int
+  periodTime     String
+  periodType     String
+  shotType       String?
+  goalType       String?
+  isEmptyNet     Boolean  @default(false)
+  isGameWinning  Boolean  @default(false)
+  isOvertimeGoal Boolean  @default(false)
+  scoringTeam    String
+  isSharksGoal   Boolean
+  homeScore      Int
+  awayScore      Int
+  brightcoveId   String?
+  description    String?
+  createdAt      DateTime @default(now())
+
+  @@index([scorerId])
+  @@index([gameId])
+  @@index([goalType])
+  @@index([isSharksGoal])
+}
+
+model SeasonStats {
+  id          String   @id @default(uuid())
+  playerId    String   @unique
+  player      Player   @relation(fields: [playerId], references: [id])
+  season      String
+  gamesPlayed Int      @default(0)
+  goals       Int      @default(0)
+  assists     Int      @default(0)
+  points      Int      @default(0)
+  plusMinus    Int      @default(0)
+  pim         Int      @default(0)
+  ppGoals     Int      @default(0)
+  shGoals     Int      @default(0)
+  gwGoals     Int      @default(0)
+  shots       Int      @default(0)
+  shootingPct Float    @default(0)
+  avgToi      String?
+  faceoffPct  Float?
+  updatedAt   DateTime @updatedAt
+}

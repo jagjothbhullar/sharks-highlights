@@ -9,6 +9,7 @@ import goalsRoutes from './routes/goals.js';
 import playersRoutes from './routes/players.js';
 import clipsRoutes from './routes/clips.js';
 import statsRoutes from './routes/stats.js';
+import yearbookRoutes from './routes/yearbook.js';
 import { syncGames } from './jobs/syncGames.js';
 import { syncRoster } from './jobs/syncRoster.js';
 
@@ -29,6 +30,7 @@ app.use('/api/goals', goalsRoutes);
 app.use('/api/players', playersRoutes);
 app.use('/api/clips', clipsRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/yearbook', yearbookRoutes);
 
 // Health check
 app.get('/api/health', async (req, res) => {

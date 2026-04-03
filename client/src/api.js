@@ -39,3 +39,21 @@ export function getStats() {
 export function getSummary() {
   return fetchJson('/api/stats/summary');
 }
+
+export function getYearbookEntries(playerId) {
+  return fetchJson(`/api/yearbook?playerId=${playerId}`);
+}
+
+export function getPopularHighlights() {
+  return fetchJson('/api/yearbook/popular');
+}
+
+export async function signYearbook({ playerId, favoriteGoalId, note, signerName }) {
+  const res = await fetch(`${BASE}/api/yearbook`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ playerId, favoriteGoalId, note, signerName }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}`);
+  return res.json();
+}

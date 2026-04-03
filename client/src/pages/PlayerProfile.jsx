@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPlayer } from '../api';
 import GoalCard from '../components/GoalCard';
+import SignYearbook from '../components/SignYearbook';
+import YearbookWall from '../components/YearbookWall';
 
 export default function PlayerProfile() {
   const { id } = useParams();
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     setLoading(true);
@@ -22,6 +25,7 @@ export default function PlayerProfile() {
 
   const stats = player.seasonStats;
   const goals = player.goals || [];
+  const playerName = `${player.firstName} ${player.lastName}`;
 
   const filteredGoals = goals.filter(g => {
     if (filter === 'all') return true;
@@ -38,10 +42,10 @@ export default function PlayerProfile() {
       <div className="player-header">
         <img
           src={player.headshotUrl || `https://ui-avatars.com/api/?name=${player.firstName}+${player.lastName}&background=006d75&color=fff&size=160`}
-          alt={`${player.firstName} ${player.lastName}`}
+          alt={playerName}
         />
         <div className="info">
-          <h1>#{player.sweaterNumber} {player.firstName} {player.lastName}</h1>
+          <h1>#{player.sweaterNumber} {playerName}</h1>
           <div className="meta">
             {player.positionCode}
             {player.birthCity && ` \u2022 ${player.birthCity}, ${player.birthCountry}`}
@@ -62,7 +66,16 @@ export default function PlayerProfile() {
         </div>
       </div>
 
-      <h2 style={{ marginBottom: 16 }}>
+      <SignYearbook
+        playerId={player.id}
+        playerName={playerName}
+        goals={goals}
+        onSigned={() => setRefreshKey(k => k + 1)}
+      />
+
+      <YearbookWall playerId={player.id} refreshKey={refreshKey} />
+
+      <h2 style={{ marginBottom: 16, marginTop: 32 }}>
         Highlights ({filteredGoals.length})
       </h2>
 

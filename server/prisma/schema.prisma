@@ -8,8 +8,8 @@ datasource db {
 }
 
 model Player {
-  id            String   @id @default(uuid())
-  nhlId         Int      @unique
+  id            String           @id @default(uuid())
+  nhlId         Int              @unique
   firstName     String
   lastName      String
   positionCode  String
@@ -23,8 +23,9 @@ model Player {
   shootsCatches String?
   goals         Goal[]
   seasonStats   SeasonStats?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  signatures    YearbookEntry[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
   @@index([nhlId])
 }
@@ -51,14 +52,29 @@ model Game {
   @@index([opponentAbbrev])
 }
 
-model Goal {
+model YearbookEntry {
   id             String   @id @default(uuid())
+  playerId       String
+  player         Player   @relation(fields: [playerId], references: [id])
+  favoriteGoalId String?
+  favoriteGoal   Goal?    @relation(fields: [favoriteGoalId], references: [id])
+  note           String
+  signerName     String
+  createdAt      DateTime @default(now())
+
+  @@index([playerId])
+  @@index([favoriteGoalId])
+}
+
+model Goal {
+  id             String          @id @default(uuid())
   nhlEventId     Int
   gameId         String
-  game           Game     @relation(fields: [gameId], references: [id])
+  game           Game            @relation(fields: [gameId], references: [id])
   scorerId       String?
-  scorer         Player?  @relation(fields: [scorerId], references: [id])
+  scorer         Player?         @relation(fields: [scorerId], references: [id])
   scorerName     String
+  yearbookPicks  YearbookEntry[]
   assist1Name    String?
   assist2Name    String?
   period         Int

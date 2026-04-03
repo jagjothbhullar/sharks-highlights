@@ -32,6 +32,11 @@ app.use('/api/clips', clipsRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/yearbook', yearbookRoutes);
 
+// TikTok domain verification
+app.get('/tiktoky7OoyzBX3geLE1pNSCohE0rv6hpgOvpV.txt', (req, res) => {
+  res.type('text/plain').send('tiktok-developers-site-verification=y7OoyzBX3geLE1pNSCohE0rv6hpgOvpV');
+});
+
 // Static legal pages (for TikTok URL validation)
 const legalHtml = (title, content) => `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title} - Sharks Yearbook</title></head><body style="font-family:sans-serif;max-width:600px;margin:40px auto;padding:0 20px"><h1>${title}</h1><p>Last updated: April 3, 2026</p>${content}</body></html>`;
 

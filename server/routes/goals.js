@@ -74,6 +74,30 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/goals/random — random Sharks goal with a clip
+router.get('/random', async (req, res) => {
+  try {
+    const count = await prisma.goal.count({
+      where: { isSharksGoal: true, brightcoveId: { not: null } },
+    });
+    const skip = Math.floor(Math.random() * count);
+    const [goal] = await prisma.goal.findMany({
+      where: { isSharksGoal: true, brightcoveId: { not: null } },
+      skip,
+      take: 1,
+      include: {
+        scorer: true,
+        game: { select: { gameDate: true, opponentAbbrev: true, isHome: true, homeScore: true, awayScore: true } },
+      },
+    });
+    if (!goal) return res.status(404).json({ error: 'No goals found' });
+    res.json(goal);
+  } catch (err) {
+    console.error('[goals] Error:', err);
+    res.status(500).json({ error: 'Failed to fetch random goal' });
+  }
+});
+
 // GET /api/goals/:id — single goal detail
 router.get('/:id', async (req, res) => {
   try {

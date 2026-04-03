@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getYearbookEntries } from '../api';
-import VideoPlayer from './VideoPlayer';
+import HighlightModal from './HighlightModal';
 
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
@@ -16,7 +16,7 @@ function formatGoalRef(goal) {
 export default function YearbookWall({ playerId, refreshKey }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [expandedClip, setExpandedClip] = useState(null);
+  const [activeGoal, setActiveGoal] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -41,24 +41,20 @@ export default function YearbookWall({ playerId, refreshKey }) {
             </div>
             <p className="signature-note">{entry.note}</p>
             {entry.favoriteGoal && (
-              <>
-                <div
-                  className="fav-highlight fav-highlight-link"
-                  onClick={() => setExpandedClip(expandedClip === entry.id ? null : entry.id)}
-                >
-                  <span className="fav-label">Fav highlight:</span> {formatGoalRef(entry.favoriteGoal)}
-                  <span className="fav-expand">{expandedClip === entry.id ? '\u25B2' : '\u25B6'}</span>
-                </div>
-                {expandedClip === entry.id && entry.favoriteGoal.brightcoveId && (
-                  <div className="fav-video">
-                    <VideoPlayer brightcoveId={entry.favoriteGoal.brightcoveId} />
-                  </div>
-                )}
-              </>
+              <div
+                className="fav-highlight fav-highlight-link"
+                onClick={() => setActiveGoal(entry.favoriteGoal)}
+              >
+                <span className="fav-label">&#9654; Watch highlight:</span> {formatGoalRef(entry.favoriteGoal)}
+              </div>
             )}
           </div>
         ))}
       </div>
+
+      {activeGoal && (
+        <HighlightModal goal={activeGoal} onClose={() => setActiveGoal(null)} />
+      )}
     </div>
   );
 }

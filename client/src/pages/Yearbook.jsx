@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getPlayers } from '../api';
+import { getPlayers, getRandomGoal } from '../api';
+import HighlightModal from '../components/HighlightModal';
 
 const POSITION_ORDER = { F: 0, D: 1, G: 2 };
 const POSITION_LABELS = { F: 'Forwards', D: 'Defensemen', G: 'Goalies' };
@@ -15,6 +16,8 @@ export default function Yearbook() {
   const [players, setPlayers] = useState([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+  const [randomGoal, setRandomGoal] = useState(null);
+  const [loadingRandom, setLoadingRandom] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +26,18 @@ export default function Yearbook() {
       setLoading(false);
     });
   }, []);
+
+  async function handleRandom() {
+    setLoadingRandom(true);
+    try {
+      const goal = await getRandomGoal();
+      setRandomGoal(goal);
+    } catch {
+      // ignore
+    } finally {
+      setLoadingRandom(false);
+    }
+  }
 
   const filtered = useMemo(() => {
     if (!search) return players;
@@ -59,6 +74,17 @@ export default function Yearbook() {
           onChange={e => setSearch(e.target.value)}
         />
       </div>
+
+      <div style={{ textAlign: 'center' }}>
+        <button className="random-btn" onClick={handleRandom} disabled={loadingRandom}>
+          <span className="dice">&#127922;</span>
+          {loadingRandom ? 'Loading...' : 'Random Highlight'}
+        </button>
+      </div>
+
+      {randomGoal && (
+        <HighlightModal goal={randomGoal} onClose={() => setRandomGoal(null)} />
+      )}
 
       {grouped.map(([group, groupPlayers]) => (
         <div key={group} className="position-group">

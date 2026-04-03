@@ -28,6 +28,10 @@ export function getGoals(params = {}) {
   return fetchJson(`/api/goals${qs ? `?${qs}` : ''}`);
 }
 
+export function getRandomGoal() {
+  return fetchJson('/api/goals/random');
+}
+
 export function getClipUrl(brightcoveId) {
   return fetchJson(`/api/clips/${brightcoveId}/playback`);
 }

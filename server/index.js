@@ -32,6 +32,28 @@ app.use('/api/clips', clipsRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/yearbook', yearbookRoutes);
 
+// Static legal pages (for TikTok URL validation)
+const legalHtml = (title, content) => `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title} - Sharks Yearbook</title></head><body style="font-family:sans-serif;max-width:600px;margin:40px auto;padding:0 20px"><h1>${title}</h1><p>Last updated: April 3, 2026</p>${content}</body></html>`;
+
+app.get('/terms', (req, res) => {
+  res.send(legalHtml('Terms of Service',
+    '<p>Sharks Yearbook is an unofficial fan project for browsing San Jose Sharks highlights from the 2025-26 NHL season.</p>' +
+    '<ul><li>Not affiliated with the NHL or San Jose Sharks.</li><li>Video content sourced from publicly available NHL highlights.</li>' +
+    '<li>Yearbook signatures are public and visible to all visitors.</li><li>We reserve the right to remove offensive content.</li>' +
+    '<li>Provided as-is with no warranties.</li></ul>'
+  ));
+});
+
+app.get('/privacy', (req, res) => {
+  res.send(legalHtml('Privacy Policy',
+    '<p>Sharks Yearbook collects minimal data:</p>' +
+    '<ul><li>Yearbook signatures (name, note, selected highlight) are stored in our database and publicly visible.</li>' +
+    '<li>We do not collect emails, passwords, or personal information.</li>' +
+    '<li>We do not use cookies for tracking or advertising.</li>' +
+    '<li>We do not sell or share data with third parties.</li></ul>'
+  ));
+});
+
 // Health check
 app.get('/api/health', async (req, res) => {
   const gameCount = await prisma.game.count();

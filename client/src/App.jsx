@@ -5,6 +5,7 @@ import PlayerProfile from './pages/PlayerProfile';
 import Goals from './pages/Goals';
 import GameDetail from './pages/GameDetail';
 import Legal from './pages/Legal';
+import Admin from './pages/Admin';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/games/:id" element={<GameDetail />} />
           <Route path="/terms" element={<Legal />} />
           <Route path="/privacy" element={<Legal />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>

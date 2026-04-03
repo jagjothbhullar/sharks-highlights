@@ -11,6 +11,7 @@ export default function Layout() {
         <div className="nav-links">
           <Link to="/">Roster</Link>
           <Link to="/goals">All Goals</Link>
+          <Link to="/admin">TikTok</Link>
         </div>
       </nav>
       <Outlet />

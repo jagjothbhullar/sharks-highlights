@@ -10,6 +10,7 @@ import playersRoutes from './routes/players.js';
 import clipsRoutes from './routes/clips.js';
 import statsRoutes from './routes/stats.js';
 import yearbookRoutes from './routes/yearbook.js';
+import tiktokRoutes from './routes/tiktok.js';
 import { syncGames } from './jobs/syncGames.js';
 import { syncRoster } from './jobs/syncRoster.js';
 
@@ -31,6 +32,8 @@ app.use('/api/players', playersRoutes);
 app.use('/api/clips', clipsRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/yearbook', yearbookRoutes);
+app.use('/api/tiktok', tiktokRoutes);
+app.use('/auth/tiktok', tiktokRoutes);
 
 // TikTok domain verification
 app.get('/tiktoky7OoyzBX3geLE1pNSCohE0rv6hpgOvpV.txt', (req, res) => {

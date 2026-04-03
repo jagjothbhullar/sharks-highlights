@@ -9,8 +9,8 @@ router.get('/:brightcoveId/playback', async (req, res) => {
     const url = await getPlaybackUrl(req.params.brightcoveId);
     res.json({ url });
   } catch (err) {
-    console.error('[clips] Error:', err);
-    res.status(502).json({ error: 'Failed to resolve video URL' });
+    console.error('[clips] Error:', err.message);
+    res.status(502).json({ error: 'Failed to resolve video URL', detail: err.message });
   }
 });
 

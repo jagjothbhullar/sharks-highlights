@@ -1,5 +1,5 @@
 const ACCOUNT_ID = process.env.BRIGHTCOVE_ACCOUNT_ID || '6415718365001';
-const POLICY_KEY = process.env.BRIGHTCOVE_POLICY_KEY;
+const POLICY_KEY = process.env.BRIGHTCOVE_POLICY_KEY || 'BCpkADawqM3l37Vq8trLJ95vVwxubXYZXYglAopEZXQTHTWX3YdalyF9xmkuknxjBgiMYwt8VZ_OZ1jAjYxz_yzuNh_cjC3uOaMspVTD-hZfNUHtNnBnhVD0Gmsih8TBF8QlQFXiCQM3W_u4ydJ1qK2Rx8ZutCUg3PHb7Q';
 
 // In-memory cache: brightcoveId -> { url, expiresAt }
 const cache = new Map();

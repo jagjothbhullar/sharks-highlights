@@ -634,19 +634,19 @@ nav .nav-links a:hover { color: var(--white); }
   background: var(--dark-card);
   border: 2px solid var(--teal);
   border-radius: 14px;
-  width: 420px;
+  width: 520px;
   max-width: 90vw;
-  max-height: 80vh;
+  max-height: 85vh;
   overflow: hidden;
   position: relative;
   box-shadow: 0 16px 48px rgba(0, 109, 117, 0.3);
 }
 .modal-content .video-container {
   aspect-ratio: 16/9;
-  max-height: 240px;
+  max-height: 300px;
 }
 .modal-content video {
-  max-height: 240px;
+  max-height: 300px;
 }
 .modal-close {
   position: absolute;

@@ -598,3 +598,21 @@ nav .nav-links a:hover { color: var(--white); }
   color: var(--orange);
   font-weight: 600;
 }
+.fav-highlight-link {
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fav-highlight-link:hover { background: rgba(0, 109, 117, 0.15); }
+.fav-expand {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--teal-light);
+}
+.fav-video {
+  margin-top: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+}

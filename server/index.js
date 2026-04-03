@@ -11,8 +11,11 @@ import clipsRoutes from './routes/clips.js';
 import statsRoutes from './routes/stats.js';
 import yearbookRoutes from './routes/yearbook.js';
 import tiktokRoutes from './routes/tiktok.js';
+import clipMakerRoutes from './routes/clipMaker.js';
 import { syncGames } from './jobs/syncGames.js';
 import { syncRoster } from './jobs/syncRoster.js';
+import { autoPostHighlight } from './jobs/autoPost.js';
+import { tiktokTokens } from './routes/tiktok.js';
 
 const prisma = new PrismaClient();
 const app = express();
@@ -34,6 +37,7 @@ app.use('/api/stats', statsRoutes);
 app.use('/api/yearbook', yearbookRoutes);
 app.use('/api/tiktok', tiktokRoutes);
 app.use('/auth/tiktok', tiktokRoutes);
+app.use('/api/clip-maker', clipMakerRoutes);
 
 // TikTok domain verification
 app.get('/tiktoky7OoyzBX3geLE1pNSCohE0rv6hpgOvpV.txt', (req, res) => {
@@ -90,9 +94,15 @@ app.post('/api/seed', async (req, res) => {
 });
 
 // Nightly game sync — 8 AM Pacific (after games are finalized + highlights posted)
-cron.schedule('0 8 * * *', () => {
+cron.schedule('0 8 * * *', async () => {
   console.log('[cron] Running nightly game sync...');
-  syncGames();
+  await syncGames();
+
+  // Auto-post best highlight to TikTok 30 min after sync
+  setTimeout(() => {
+    console.log('[cron] Running auto-post to TikTok...');
+    autoPostHighlight(tiktokTokens).catch(err => console.error('[auto-post] Error:', err));
+  }, 30 * 60 * 1000);
 }, { timezone: 'America/Los_Angeles' });
 
 // Weekly roster/stats refresh — Monday 6 AM Pacific

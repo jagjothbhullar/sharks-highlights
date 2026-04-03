@@ -1,24 +1,35 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getClipUrl } from '../api';
 
 export default function VideoPlayer({ brightcoveId }) {
   const [videoUrl, setVideoUrl] = useState(null);
+  const [poster, setPoster] = useState(null);
   const [loading, setLoading] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [error, setError] = useState(false);
   const videoRef = useRef(null);
 
+  // Eagerly fetch poster thumbnail on mount
+  useEffect(() => {
+    if (!brightcoveId) return;
+    getClipUrl(brightcoveId).then(data => {
+      setPoster(data.poster || data.thumbnail || null);
+      setVideoUrl(data.url);
+    }).catch(() => {});
+  }, [brightcoveId]);
+
   async function handlePlay() {
-    if (videoUrl) {
-      videoRef.current?.play();
+    if (videoUrl && videoRef.current) {
+      videoRef.current.play();
       setPlaying(true);
       return;
     }
 
     setLoading(true);
     try {
-      const { url } = await getClipUrl(brightcoveId);
-      setVideoUrl(url);
+      const data = await getClipUrl(brightcoveId);
+      setVideoUrl(data.url);
+      setPoster(data.poster || data.thumbnail || null);
       setPlaying(true);
     } catch {
       setError(true);
@@ -45,7 +56,7 @@ export default function VideoPlayer({ brightcoveId }) {
 
   return (
     <div className="video-container">
-      {videoUrl ? (
+      {playing && videoUrl ? (
         <video
           ref={videoRef}
           src={videoUrl}
@@ -54,7 +65,11 @@ export default function VideoPlayer({ brightcoveId }) {
           onEnded={() => setPlaying(false)}
         />
       ) : (
-        <div className="play-overlay" onClick={handlePlay}>
+        <div
+          className="play-overlay"
+          onClick={handlePlay}
+          style={poster ? { backgroundImage: `url(${poster})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}}
+        >
           {loading ? (
             <span style={{ color: 'white', fontSize: 16 }}>Loading...</span>
           ) : (

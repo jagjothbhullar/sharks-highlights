@@ -8,7 +8,7 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 export async function getPlaybackUrl(brightcoveId) {
   const cached = cache.get(brightcoveId);
   if (cached && cached.expiresAt > Date.now()) {
-    return cached.url;
+    return cached;
   }
 
   const res = await fetch(
@@ -25,8 +25,14 @@ export async function getPlaybackUrl(brightcoveId) {
 
   if (!mp4Source) throw new Error(`No MP4 source for video ${brightcoveId}`);
 
-  cache.set(brightcoveId, { url: mp4Source.src, expiresAt: Date.now() + CACHE_TTL });
-  return mp4Source.src;
+  const result = {
+    url: mp4Source.src,
+    poster: data.poster || null,
+    thumbnail: data.thumbnail || null,
+  };
+
+  cache.set(brightcoveId, { ...result, expiresAt: Date.now() + CACHE_TTL });
+  return result;
 }
 
 export function getVideoMeta(brightcoveData) {

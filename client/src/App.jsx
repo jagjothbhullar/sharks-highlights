@@ -4,6 +4,7 @@ import Yearbook from './pages/Yearbook';
 import PlayerProfile from './pages/PlayerProfile';
 import Goals from './pages/Goals';
 import GameDetail from './pages/GameDetail';
+import Legal from './pages/Legal';
 
 export default function App() {
   return (
@@ -14,6 +15,8 @@ export default function App() {
           <Route path="/players/:id" element={<PlayerProfile />} />
           <Route path="/goals" element={<Goals />} />
           <Route path="/games/:id" element={<GameDetail />} />
+          <Route path="/terms" element={<Legal />} />
+          <Route path="/privacy" element={<Legal />} />
         </Route>
       </Routes>
     </BrowserRouter>

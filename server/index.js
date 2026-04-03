@@ -46,7 +46,7 @@ app.get('/api/health', async (req, res) => {
 // One-time seed endpoints (remove after initial deploy)
 app.post('/api/seed-yearbook', async (req, res) => {
   const count = await prisma.yearbookEntry.count();
-  if (count > 0) return res.json({ message: 'Already seeded', entries: count });
+  if (count > 10) return res.json({ message: 'Already seeded', entries: count });
   res.json({ message: 'Yearbook seed started' });
   import('./scripts/seedYearbook.js').catch(err => console.error('[seed-yearbook] Error:', err));
 });

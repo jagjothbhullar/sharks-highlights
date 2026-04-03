@@ -77,7 +77,7 @@ export default function Yearbook() {
 
       <div style={{ textAlign: 'center' }}>
         <button className="random-btn" onClick={handleRandom} disabled={loadingRandom}>
-          <span className="dice">&#127922;</span>
+          <span className="shark-icon">{'\uD83E\uDD88'}</span>
           {loadingRandom ? 'Loading...' : 'Random Highlight'}
         </button>
       </div>

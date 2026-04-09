@@ -19,7 +19,7 @@ export default function Layout() {
         <div className="footer-content">
           <span className="footer-brand">Sharks Yearbook 2025-26</span>
           <div className="footer-links">
-            <Link to="/terms">Terms of Service</Link>
+            <Link to="/terms">Terms of Use</Link>
             <Link to="/privacy">Privacy Policy</Link>
             <a href="https://github.com/jagjothbhullar/sharks-highlights" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>

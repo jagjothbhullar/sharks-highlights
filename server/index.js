@@ -39,31 +39,33 @@ app.use('/api/tiktok', tiktokRoutes);
 app.use('/auth/tiktok', tiktokRoutes);
 app.use('/api/clip-maker', clipMakerRoutes);
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Sharks Yearbook API',
+    season: '2025-26',
+    status: 'ok',
+    docs: {
+      health: '/api/health',
+      players: '/api/players',
+      goals: '/api/goals',
+      games: '/api/games',
+    },
+  });
+});
+
 // TikTok domain verification
 app.get('/tiktoky7OoyzBX3geLE1pNSCohE0rv6hpgOvpV.txt', (req, res) => {
   res.type('text/plain').send('tiktok-developers-site-verification=y7OoyzBX3geLE1pNSCohE0rv6hpgOvpV');
 });
 
-// Static legal pages (for TikTok URL validation)
-const legalHtml = (title, content) => `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${title} - Sharks Yearbook</title></head><body style="font-family:sans-serif;max-width:600px;margin:40px auto;padding:0 20px"><h1>${title}</h1><p>Last updated: April 3, 2026</p>${content}</body></html>`;
-
+// Static legal pages (for TikTok URL validation) — redirect to client
 app.get('/terms', (req, res) => {
-  res.send(legalHtml('Terms of Service',
-    '<p>Sharks Yearbook is an unofficial fan project for browsing San Jose Sharks highlights from the 2025-26 NHL season.</p>' +
-    '<ul><li>Not affiliated with the NHL or San Jose Sharks.</li><li>Video content sourced from publicly available NHL highlights.</li>' +
-    '<li>Yearbook signatures are public and visible to all visitors.</li><li>We reserve the right to remove offensive content.</li>' +
-    '<li>Provided as-is with no warranties.</li></ul>'
-  ));
+  res.redirect(301, `${process.env.CLIENT_URL || 'https://sharks-highlights-client.onrender.com'}/terms`);
 });
 
 app.get('/privacy', (req, res) => {
-  res.send(legalHtml('Privacy Policy',
-    '<p>Sharks Yearbook collects minimal data:</p>' +
-    '<ul><li>Yearbook signatures (name, note, selected highlight) are stored in our database and publicly visible.</li>' +
-    '<li>We do not collect emails, passwords, or personal information.</li>' +
-    '<li>We do not use cookies for tracking or advertising.</li>' +
-    '<li>We do not sell or share data with third parties.</li></ul>'
-  ));
+  res.redirect(301, `${process.env.CLIENT_URL || 'https://sharks-highlights-client.onrender.com'}/privacy`);
 });
 
 // Health check

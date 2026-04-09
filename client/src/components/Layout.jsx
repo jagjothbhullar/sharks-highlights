@@ -12,6 +12,8 @@ export default function Layout() {
           <Link to="/">Roster</Link>
           <Link to="/goals">All Goals</Link>
           <Link to="/admin">TikTok</Link>
+          <Link to="/terms">Terms</Link>
+          <Link to="/privacy">Privacy</Link>
         </div>
       </nav>
       <Outlet />

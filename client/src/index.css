@@ -698,6 +698,74 @@ nav .nav-links a:hover { color: var(--white); }
   margin-top: 2px;
 }
 
+/* Footer */
+.site-footer {
+  background: var(--black);
+  border-top: 1px solid var(--dark-border);
+  padding: 24px;
+  margin-top: auto;
+}
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.footer-brand {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--gray);
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 12px 0;
+}
+.footer-links a {
+  color: var(--gray);
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--teal-light); }
+.footer-disclaimer {
+  font-size: 11px;
+  color: var(--dark-border);
+  margin-top: 8px;
+}
+
+/* Legal pages */
+.legal-body {
+  color: var(--light);
+  line-height: 1.8;
+  font-size: 14px;
+}
+.legal-body section {
+  margin-bottom: 28px;
+}
+.legal-body h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+}
+.legal-body h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  margin: 14px 0 8px;
+}
+.legal-body p {
+  margin-bottom: 10px;
+}
+.legal-body ul {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+.legal-body li {
+  margin-bottom: 6px;
+}
+
 /* Random Highlight Button */
 .random-btn {
   background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 50%, var(--teal-light) 100%);

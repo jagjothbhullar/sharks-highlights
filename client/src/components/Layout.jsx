@@ -15,6 +15,19 @@ export default function Layout() {
         </div>
       </nav>
       <Outlet />
+      <footer className="site-footer">
+        <div className="footer-content">
+          <span className="footer-brand">Sharks Yearbook 2025-26</span>
+          <div className="footer-links">
+            <Link to="/terms">Terms of Service</Link>
+            <Link to="/privacy">Privacy Policy</Link>
+            <a href="https://github.com/jagjothbhullar/sharks-highlights" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+          <p className="footer-disclaimer">
+            Not affiliated with the NHL or the San Jose Sharks. A fan project.
+          </p>
+        </div>
+      </footer>
     </>
   );
 }
